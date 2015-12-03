@@ -9,6 +9,16 @@ package coe528.mdp;
  *
  * @author Brian
  */
-public class Account {
+public abstract class Account {    
+   
+    public void deposit(int amount) {
+        
+    }
+    
+    public void withdraw(int amount) {
+        
+    }
+    
+   
     
 }

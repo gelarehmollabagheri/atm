@@ -5,28 +5,51 @@
  */
 package coe528.mdp;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
  * @author Brian
  */
 public class User{
-    protected String name;
-    protected String password;
-    protected String accType;
-    ArrayList<User> database = new ArrayList<User>();
-    private User current;
     
-    public User(String name, String password, String accType) {
-        this.name=name;
-        this.password=password;
-        this.accType=accType;
-        database.add(this);
+    private ArrayList<String> name = new ArrayList<String>();
+    private ArrayList<String> idNum = new ArrayList<String>();
+    private ArrayList<String> password = new ArrayList<String>();
+    private ArrayList<String> balance = new ArrayList<String>();    
+    String file = "users.txt";
+    
+    public User() {
+       
     }
     
     public void changePassword(String password) {
         current.password = password;
+    }
+    
+    public boolean loadFile() {
+        try {
+            File F = new File(file);
+            Scanner scanner = new Scanner(F);
+            String user;
+
+            while (scanner.hasNext()) {
+                user = scanner.next();
+                if (user != "\n") {
+                    idNum.add(user);
+                    password.add(scanner.next());
+                    name.add(scanner.next());
+                    balance.add(scanner.next());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IO Exception");
+        }
+
+        return false;
     }
     
     public int searchUser(String name) {
@@ -41,16 +64,7 @@ public class User{
         return 0;
     }
     
-    public String getAccType(String name) {
-        int i = searchUser(name);
-        if (i != 0) {
-            return database.get(i).accType;
-        } else {
-            System.err.println("No accounts exist with the following name: " + name);
-            return "User does not exist";
-        }
-    }
-    
+        
     public boolean login(String name, String password) {
         int i = searchUser(name);
         String temp = database.get(i).password;
